@@ -1,40 +1,53 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db import models
+from django.conf import settings
 
-# Custom User Model
 class User(AbstractUser):
+    email = models.EmailField(unique=True)
     is_seller = models.BooleanField(default=False)
     is_mentor = models.BooleanField(default=False)
 
-# Product Model
+    def __str__(self):
+        return self.username
+
+
 class Product(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     category = models.CharField(max_length=100)
-    seller = models.ForeignKey(User, on_delete=models.CASCADE)
+    seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='products')
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
 
-# Savings Group Model
+
 class SavingsGroup(models.Model):
-    name = models.CharField(max_length=200)
-    members = models.ManyToManyField(User, related_name="savings_groups")
-    total_savings = models.DecimalField(max_digits=12, decimal_places=2)
+    name = models.CharField(max_length=255)
+    members = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='savings_groups', blank=True)
+    total_savings = models.DecimalField(max_digits=12, decimal_places=2, default=0)
 
     def __str__(self):
         return self.name
 
-# Mentorship Model
+
 class Mentorship(models.Model):
+    PENDING = 'Pending'
+    ACCEPTED = 'Accepted'
+    REJECTED = 'Rejected'
     STATUS_CHOICES = [
-        ("Pending", "Pending"),
-        ("Accepted", "Accepted"),
-        ("Rejected", "Rejected"),
+        (PENDING, 'Pending'),
+        (ACCEPTED, 'Accepted'),
+        (REJECTED, 'Rejected'),
     ]
-    mentor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="mentorships_as_mentor")
-    mentee = models.ForeignKey(User, on_delete=models.CASCADE, related_name="mentorships_as_mentee")
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="Pending")
+
+    mentor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='menteeships')
+    mentee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='mentorships')
+    status = models.CharField(max_length=8, choices=STATUS_CHOICES, default=PENDING)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('mentor', 'mentee')
 
     def __str__(self):
-        return f"{self.mentee.username} → {self.mentor.username} ({self.status})"
+        return f"{self.mentor} → {self.mentee} ({self.status})"

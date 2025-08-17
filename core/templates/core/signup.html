@@ -1,6 +1,13 @@
-<h2>Signup</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Signup</button>
-</form>
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Welcome to SheWorks</h1>
+  {% if user.is_authenticated %}
+    <p>You are logged in as <strong>{{ user.username }}</strong>.</p>
+    <ul>
+      <li>Is Seller: {{ user.is_seller }}</li>
+      <li>Is Mentor: {{ user.is_mentor }}</li>
+    </ul>
+  {% else %}
+    <p>Please <a href="/signup/">sign up</a> or <a href="/login/">log in</a>.</p>
+  {% endif %}
+{% endblock %}
