@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h1>Welcome to SheWorks</h1>
+
+    {% if user.is_authenticated %}
+      <p>You are logged in as <strong>{{ user.username }}</strong>.</p>
+      <ul>
+        <li><strong>Is Seller:</strong> {{ user.is_seller }}</li>
+        <li><strong>Is Mentor:</strong> {{ user.is_mentor }}</li>
+      </ul>
+
+      <p>
+        <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+      </p>
+    {% else %}
+      <p>Please 
+        <a href="{% url 'signup' %}" class="btn btn-primary">Sign up</a> 
+        or 
+        <a href="{% url 'login' %}" class="btn btn-success">Log in</a>.
+      </p>
+    {% endif %}
+  </div>
+{% endblock %}

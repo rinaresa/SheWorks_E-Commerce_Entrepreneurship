@@ -12,6 +12,9 @@ class CustomUserAdmin(UserAdmin):
         ("Roles", {"fields": ("is_seller", "is_mentor")}),
     )
 
+
+admin.site.unregister(Product) if admin.site.is_registered(Product) else None
 admin.site.register(Product)
+
 admin.site.register(SavingsGroup)
 admin.site.register(Mentorship)

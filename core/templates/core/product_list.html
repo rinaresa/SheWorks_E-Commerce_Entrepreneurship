@@ -1,0 +1,45 @@
+<h2>Products</h2>
+
+<form method="get">
+    <input type="text" name="q" placeholder="Search by name" value="{{ request.GET.q }}">
+    <select name="category">
+        <option value="">All Categories</option>
+        <option value="clothing">Clothing</option>
+        <option value="electronics">Electronics</option>
+        <option value="food">Food</option>
+    </select>
+    <button type="submit">Search</button>
+</form>
+
+<ul>
+    {% for product in page_obj %}
+        <li>
+            <a href="{% url 'product_detail' product.pk %}">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" width="100">
+                {% endif %}
+                {{ product.name }} - ${{ product.price }}
+            </a>
+        </li>
+    {% empty %}
+        <li>No products found.</li>
+    {% endfor %}
+</ul>
+
+<div>
+    {% if page_obj.has_previous %}
+        <a href="?page=1">&laquo; First</a>
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+
+    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+    {% endif %}
+</div>
+
+{% if user.is_authenticated and user.is_seller %}
+    <a href="{% url 'create_product' %}">Add New Product</a>
+{% endif %}
