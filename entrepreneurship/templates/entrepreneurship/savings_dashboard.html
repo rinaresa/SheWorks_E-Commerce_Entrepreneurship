@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>💰 Savings Groups</h2>
+<a href="{% url 'create_group' %}">➕ Create New Group</a>
+<ul>
+    {% for group in groups %}
+        <li>
+            {{ group.name }} (Balance: {{ group.total_balance }})
+            <a href="{% url 'group_detail' group.id %}">View</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

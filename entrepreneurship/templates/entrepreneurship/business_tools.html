@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>📂 Business Toolkit</h2>
+<ul>
+    <li><a href="{% url 'download_template' 'business_plan' %}">📄 Download Business Plan</a></li>
+    <li><a href="{% url 'download_template' 'budget_sheet' %}">📄 Download Budget Sheet</a></li>
+    <li><a href="{% url 'download_template' 'marketing_plan' %}">📄 Download Marketing Plan</a></li>
+</ul>
+{% endblock %}
