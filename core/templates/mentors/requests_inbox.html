@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Mentorship Requests Inbox</h2>
+  {% if requests %}
+    <ul>
+      {% for req in requests %}
+        <li>
+          From: {{ req.user.username }} <br>
+          Message: {{ req.message }} <br>
+          Status: {{ req.status }} <br>
+          {% if req.status == "Pending" %}
+            <a href="{% url 'request_action' req.id 'accept' %}">Accept</a> |
+            <a href="{% url 'request_action' req.id 'reject' %}">Reject</a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No mentorship requests yet.</p>
+  {% endif %}
+{% endblock %}

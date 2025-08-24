@@ -1,0 +1,22 @@
+<h1>Buyer Dashboard</h1>
+<p>Welcome, {{ request.user.username }}</p>
+
+<h2>Your Cart</h2>
+{% if cart %}
+    <ul>
+        {% for item in cart.items.all %}
+            <li>{{ item.product.name }} - Qty: {{ item.quantity }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Your cart is empty.</p>
+{% endif %}
+
+<h2>Your Orders</h2>
+<ul>
+    {% for order in orders %}
+        <li>Order #{{ order.id }} - Total: ${{ order.total_amount }} - {{ order.status }}</li>
+    {% empty %}
+        <li>No orders yet.</li>
+    {% endfor %}
+</ul>

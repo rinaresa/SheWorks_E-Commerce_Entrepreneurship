@@ -104,9 +104,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'core.User'
 
 # Auth redirects
-LOGIN_URL = 'login'  # URL name for your login view
-LOGIN_REDIRECT_URL = 'home'  # URL name for your home view
-LOGOUT_REDIRECT_URL = 'login'  # Redirect to login after logout
-
+LOGIN_URL = 'login'  
+LOGIN_REDIRECT_URL = 'home'  
+LOGOUT_REDIRECT_URL = 'login' 
 # Email backend (for password reset)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+messages.DEBUG: 'secondary',
+messages.INFO: 'info',
+messages.SUCCESS: 'success',
+messages.WARNING: 'warning',
+messages.ERROR: 'danger',
+}

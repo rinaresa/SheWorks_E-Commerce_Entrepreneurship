@@ -1,29 +1,11 @@
-from django.db import models
-from django.conf import settings  
+"""
+This app intentionally defines no database models.
+All data models now live in the `core` app to avoid duplication.
 
-class SavingsGroup(models.Model):
-    name = models.CharField(max_length=100)
-    members = models.ManyToManyField(settings.AUTH_USER_MODEL, through='SavingsMember')
-    total_balance = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-
-    def __str__(self):
-        return self.name
-
-
-class SavingsMember(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    group = models.ForeignKey(SavingsGroup, on_delete=models.CASCADE)
-    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-
-    def __str__(self):
-        return f"{self.user} - {self.group.name}"
-
-
-class Transaction(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    group = models.ForeignKey(SavingsGroup, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.user} - {self.amount} ({self.group.name})"
+If you need to reference models here (for typing or utilities), import from core:
+    from core.models import (
+        MentorProfile, MentorshipRequest, SavingsGroup, SavingsMember, Transaction,
+        Product, Cart, CartItem, Order, User
+    )
+"""
+# No model classes here on purpose.

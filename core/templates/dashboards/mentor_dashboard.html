@@ -1,0 +1,10 @@
+<h1>Mentor Dashboard</h1>
+<p>Welcome, {{ request.user.username }}</p>
+<h2>Mentorship Requests</h2>
+<ul>
+    {% for req in requests %}
+        <li>{{ req.mentee.username }} - {{ req.status }}</li>
+    {% empty %}
+        <li>No requests yet.</li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Your Savings Groups</h2>
+<ul>
+  {% for group in groups %}
+    <li><a href="{% url 'savings_group_detail' group.pk %}">{{ group.name }}</a> - Total: {{ group.total_savings }}</li>
+  {% empty %}
+    <li>You are not in any savings groups yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

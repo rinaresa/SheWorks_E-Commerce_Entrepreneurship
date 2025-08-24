@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ group.name }}</h2>
+<p>Total Savings: {{ group.total_savings }}</p>
+
+<h3>Transactions</h3>
+<ul>
+  {% for tx in transactions %}
+    <li>{{ tx.date }} - {{ tx.amount }} by {{ tx.member }}</li>
+  {% empty %}
+    <li>No transactions yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

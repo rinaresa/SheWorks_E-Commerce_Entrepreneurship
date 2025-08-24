@@ -6,6 +6,23 @@ from django.contrib.auth.decorators import login_required
 from .models import SavingsGroup, SavingsMember, Transaction
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from .models import MentorProfile, MentorshipRequest
+from django.core.mail import send_mail
+
+def mentor_directory(request):
+    skills = request.GET.get("skills")
+    availability = request.GET.get("availability")
+
+    mentors = MentorProfile.objects.all()
+    if skills:
+        mentors = mentors.filter(skills__icontains=skills)
+    if availability:
+        mentors = mentors.filter(availability=True)
+
+    return render(request, "mentors/directory.html", {"mentors": mentors})
+
 
 @login_required
 def savings_dashboard(request):
@@ -65,3 +82,52 @@ def download_template(request, template_name):
         raise Http404("Template not found")
     return FileResponse(open(file_path, 'rb'), as_attachment=True)
 
+@login_required
+def send_request(request, mentor_id):
+    mentor = get_object_or_404(MentorProfile, id=mentor_id)
+
+    if request.method == "POST":
+        message = request.POST.get("message")
+        MentorshipRequest.objects.create(
+            mentee=request.user,
+            mentor=mentor.user,
+            message=message
+        )
+        # Notify mentor
+        send_mail(
+            subject=f"New Mentorship Request from {request.user.username}",
+            message="Log in to review the request.",
+            from_email="admin@sheworks.com",
+            recipient_list=[mentor.user.email],
+        )
+        return redirect("mentor_directory")
+
+    return render(request, "mentors/request_form.html", {"mentor": mentor})
+@login_required
+def mentor_requests(request):
+    requests = request.user.received_requests.all()
+    return render(request, "mentors/dashboard.html", {"requests": requests})
+
+
+@login_required
+def handle_request(request, request_id, action):
+    req = get_object_or_404(MentorshipRequest, id=request_id, mentor=request.user)
+
+    if action == "accept":
+        req.status = "Accepted"
+        send_mail(
+            f"Your request was accepted by {request.user.username}",
+            "Congratulations! Your mentor has accepted your request.",
+            "admin@sheworks.com",
+            [req.mentee.email],
+        )
+    elif action == "reject":
+        req.status = "Rejected"
+        send_mail(
+            f"Your request was rejected by {request.user.username}",
+            "Unfortunately, your mentor has rejected your request.",
+            "admin@sheworks.com",
+            [req.mentee.email],
+        )
+    req.save()
+    return redirect("mentor_requests")
