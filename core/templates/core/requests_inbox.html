@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Mentorship Requests</h2>
+
+{% if requests %}
+  <ul>
+    {% for req in requests %}
+      <li>
+        <strong>{{ req.requester.username }}</strong> 
+        sent you a request on {{ req.created_at|date:"M d, Y H:i" }}  
+        <br>
+        Status: {{ req.status }}
+        {% if req.status == "pending" %}
+          <a href="{% url 'request_action' req.id 'accept' %}">Accept</a> |
+          <a href="{% url 'request_action' req.id 'reject' %}">Reject</a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No requests yet.</p>
+{% endif %}
+
+{% endblock %}

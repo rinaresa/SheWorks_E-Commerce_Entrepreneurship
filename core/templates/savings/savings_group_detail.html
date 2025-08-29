@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>{{ group.name }}</h2>
-<p>Total Savings: {{ group.total_savings }}</p>
+  <div class="container mt-4">
+    <h2>{{ group.name }}</h2>
+    <p>{{ group.description }}</p>
 
-<h3>Transactions</h3>
-<ul>
-  {% for tx in transactions %}
-    <li>{{ tx.date }} - {{ tx.amount }} by {{ tx.member }}</li>
-  {% empty %}
-    <li>No transactions yet.</li>
-  {% endfor %}
-</ul>
+    <h4 class="mt-4">Members</h4>
+    <ul class="list-group">
+      {% for member in group.members.all %}
+        <li class="list-group-item">{{ member.username }}</li>
+      {% empty %}
+        <li class="list-group-item">No members yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
 {% endblock %}

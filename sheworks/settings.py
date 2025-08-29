@@ -8,6 +8,9 @@ import os
 # Build paths
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+
+
 # Security
 SECRET_KEY = 'django-insecure-vt341%%v#x8x166(x5g9pzui_gbb-gt+0344@2pb08ak2u%u1^'
 DEBUG = True
@@ -23,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'entrepreneurship',
+    
 ]
 
 # Middleware
@@ -44,8 +48,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'templates',  # Project-wide templates
-            BASE_DIR / 'core/templates',  # App-specific templates
+            BASE_DIR / 'templates',  
+            BASE_DIR / 'core/templates',  
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -101,7 +105,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custom user model
-AUTH_USER_MODEL = 'core.User'
+#AUTH_USER_MODEL = 'core.User'
 
 # Auth redirects
 LOGIN_URL = 'login'  

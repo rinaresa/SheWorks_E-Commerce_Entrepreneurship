@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <div class="card shadow p-4">
+    <h2>{{ mentor.get_full_name }}</h2>
+    <p><strong>Email:</strong> {{ mentor.email }}</p>
+
+    {% if profile.profile_photo %}
+      <img src="{{ profile.profile_photo.url }}" alt="Profile Photo" class="img-thumbnail mb-3" style="max-width:200px;">
+    {% endif %}
+
+    <p><strong>Expertise:</strong> {{ profile.expertise }}</p>
+    <p><strong>Bio:</strong> {{ profile.bio }}</p>
+  </div>
+</div>
+{% endblock %}
