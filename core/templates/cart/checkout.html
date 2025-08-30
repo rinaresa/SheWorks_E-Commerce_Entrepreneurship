@@ -1,0 +1,412 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Checkout - SheWorks{% endblock %}
+
+{% block content %}
+<div class="container">
+  <header class="checkout-header">
+    <h1>💳 Checkout</h1>
+    <p>Complete your purchase</p>
+  </header>
+
+  <div class="checkout-content">
+    <div class="order-summary">
+      <h2>Order Summary</h2>
+      <div class="cart-items">
+        {% for item in cart.items.all %}
+          <div class="cart-item">
+            <div class="item-image">
+              {% if item.product.image %}
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+              {% else %}
+                <div class="no-image">📦</div>
+              {% endif %}
+            </div>
+            
+            <div class="item-details">
+              <h3>{{ item.product.name }}</h3>
+              <p class="item-seller">Sold by: {{ item.product.seller.username }}</p>
+              <p class="item-price">${{ item.product.price }}</p>
+            </div>
+            
+            <div class="item-quantity">
+              <span class="quantity">Qty: {{ item.quantity }}</span>
+            </div>
+            
+            <div class="item-subtotal">
+              <p class="subtotal">${{ item.product.price|floatformat:2 }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      
+      <div class="total-section">
+        <div class="total-row">
+          <span>Subtotal:</span>
+          <span>${{ total|floatformat:2 }}</span>
+        </div>
+        <div class="total-row">
+          <span>Shipping:</span>
+          <span>Free</span>
+        </div>
+        <div class="total-row total-final">
+          <span><strong>Total:</strong></span>
+          <span><strong>${{ total|floatformat:2 }}</strong></span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="checkout-form">
+      <h2>Payment Information</h2>
+      <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-section">
+          <h3>Shipping Address</h3>
+          <div class="form-group">
+            <label for="full_name">Full Name</label>
+            <input type="text" id="full_name" name="full_name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address" required>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="city">City</label>
+              <input type="text" id="city" name="city" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="state">State</label>
+              <input type="text" id="state" name="state" required>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="zip_code">ZIP Code</label>
+              <input type="text" id="zip_code" name="zip_code" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="country">Country</label>
+              <input type="text" id="country" name="country" value="United States" required>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-section">
+          <h3>Payment Method</h3>
+          <div class="payment-methods">
+            <label class="payment-option">
+              <input type="radio" name="payment_method" value="credit_card" checked>
+              <span class="checkmark">💳 Credit Card</span>
+            </label>
+            
+            <label class="payment-option">
+              <input type="radio" name="payment_method" value="paypal">
+              <span class="checkmark">📱 PayPal</span>
+            </label>
+            
+            <label class="payment-option">
+              <input type="radio" name="payment_method" value="bank_transfer">
+              <span class="checkmark">🏦 Bank Transfer</span>
+            </label>
+          </div>
+          
+          <div class="form-group">
+            <label for="card_number">Card Number</label>
+            <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456">
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="expiry">Expiry Date</label>
+              <input type="text" id="expiry" name="expiry" placeholder="MM/YY">
+            </div>
+            
+            <div class="form-group">
+              <label for="cvv">CVV</label>
+              <input type="text" id="cvv" name="cvv" placeholder="123">
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-section">
+          <h3>Order Notes</h3>
+          <div class="form-group">
+            <label for="notes">Special Instructions (Optional)</label>
+            <textarea id="notes" name="notes" rows="3" placeholder="Any special instructions for your order..."></textarea>
+          </div>
+        </div>
+        
+        <div class="checkout-actions">
+          <a href="{% url 'cart_detail' %}" class="back-to-cart">← Back to Cart</a>
+          <button type="submit" class="place-order-btn">Place Order</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .checkout-header {
+    text-align: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+  }
+
+  .checkout-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+
+  .checkout-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+  }
+
+  .checkout-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+
+  .order-summary {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+  }
+
+  .order-summary h2 {
+    color: #2d3748;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+
+  .cart-items {
+    margin-bottom: 20px;
+  }
+
+  .cart-item {
+    display: grid;
+    grid-template-columns: 80px 2fr 1fr 1fr;
+    gap: 15px;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .cart-item:last-child {
+    border-bottom: none;
+  }
+
+  .item-image img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .no-image {
+    width: 60px;
+    height: 60px;
+    background: #f7fafc;
+    border: 2px dashed #cbd5e0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+  }
+
+  .item-details h3 {
+    color: #2d3748;
+    font-size: 1rem;
+    margin-bottom: 5px;
+  }
+
+  .item-seller {
+    color: #718096;
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+  }
+
+  .item-price {
+    color: #6b21a8;
+    font-weight: bold;
+  }
+
+  .quantity {
+    color: #4a5568;
+    font-size: 0.9rem;
+  }
+
+  .subtotal {
+    color: #6b21a8;
+    font-weight: bold;
+  }
+
+  .total-section {
+    border-top: 2px solid #e2e8f0;
+    padding-top: 20px;
+  }
+
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #4a5568;
+  }
+
+  .total-final {
+    font-size: 1.2rem;
+    color: #2d3748;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 10px;
+  }
+
+  .checkout-form {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .checkout-form h2 {
+    color: #2d3748;
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+  }
+
+  .form-section {
+    margin-bottom: 30px;
+  }
+
+  .form-section h3 {
+    color: #4a5568;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #4a5568;
+    font-weight: 500;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: #6b21a8;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+
+  .payment-methods {
+    margin-bottom: 20px;
+  }
+
+  .payment-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    cursor: pointer;
+  }
+
+  .payment-option input[type="radio"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+  }
+
+  .checkmark {
+    color: #4a5568;
+    font-size: 1rem;
+  }
+
+  .checkout-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .back-to-cart {
+    color: #6b21a8;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .back-to-cart:hover {
+    text-decoration: underline;
+  }
+
+  .place-order-btn {
+    background: #6b21a8;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .place-order-btn:hover {
+    background: #8b5cf6;
+  }
+
+  @media (max-width: 768px) {
+    .checkout-content {
+      grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+    
+    .checkout-actions {
+      flex-direction: column;
+      gap: 15px;
+      text-align: center;
+    }
+  }
+</style>
+{% endblock %}

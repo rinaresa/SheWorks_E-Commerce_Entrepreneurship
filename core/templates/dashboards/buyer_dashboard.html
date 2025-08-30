@@ -32,10 +32,13 @@
             <p class="product-price"><strong>${{ product.price }}</strong></p>
             <p class="product-seller">Sold by: {{ product.seller.username }}</p>
             
-            <form method="post" action="{% url 'add_to_cart' product.id %}">
-              {% csrf_token %}
-              <button type="submit" class="add-to-cart-btn">Add to Cart 🛒</button>
-            </form>
+            <div class="product-actions">
+              <form method="post" action="{% url 'add_to_cart' product.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="add-to-cart-btn">Add to Cart 🛒</button>
+              </form>
+              <a href="{% url 'product_detail' product.id %}" class="view-details-btn">View Details</a>
+            </div>
           </div>
         </div>
       {% empty %}
@@ -67,7 +70,10 @@
 
   .dashboard-header h1 {
     margin: 0;
-    font-size: 2rem;
+    font-size: 2.2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.5px;
   }
 
   .cart-link {
@@ -106,6 +112,9 @@
     color: #6b21a8;
     margin-bottom: 25px;
     font-size: 1.8rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.5px;
   }
 
   .products-grid {
@@ -116,15 +125,17 @@
 
   .product-card {
     border: 1px solid #e1e5e9;
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: all 0.3s ease;
     background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   }
 
   .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    border-color: #6b21a8;
   }
 
   .product-image {
@@ -142,12 +153,17 @@
     font-size: 1.3rem;
     color: #2d3748;
     margin-bottom: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.3px;
   }
 
   .product-description {
     color: #718096;
     margin-bottom: 15px;
-    line-height: 1.5;
+    line-height: 1.6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.95rem;
   }
 
   .product-price {
@@ -155,6 +171,8 @@
     color: #6b21a8;
     font-weight: bold;
     margin-bottom: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: -0.2px;
   }
 
   .product-seller {
@@ -165,19 +183,53 @@
 
   .add-to-cart-btn {
     width: 100%;
-    padding: 12px;
-    background: #6b21a8;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, #6b21a8 0%, #8b5cf6 100%);
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(107, 33, 168, 0.3);
   }
 
   .add-to-cart-btn:hover {
-    background: #8b5cf6;
+    background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(107, 33, 168, 0.4);
+  }
+
+  .product-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .view-details-btn {
+    display: inline-block;
+    background: #f8fafc;
+    color: #4a5568;
+    padding: 14px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border: 2px solid #e2e8f0;
+    transition: all 0.3s ease;
+    text-align: center;
+    flex: 1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .view-details-btn:hover {
+    background: #6b21a8;
+    color: white;
+    border-color: #6b21a8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(107, 33, 168, 0.2);
   }
 
   .empty-state {

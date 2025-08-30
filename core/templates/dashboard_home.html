@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard - SheWorks{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+  <!-- Welcome Header -->
+  <div class="welcome-header">
+    <h1>Welcome to SheWorks, {{ user.username }}! 🎉</h1>
+    <p>Your entrepreneurial journey starts here. Choose what you'd like to do today:</p>
+  </div>
+
+  <!-- Main Dashboard Grid -->
+  <div class="dashboard-grid">
+    <!-- Buyer Dashboard -->
+    <div class="dashboard-card buyer-card">
+      <div class="card-icon">🛍️</div>
+      <h3>Buyer Dashboard</h3>
+      <p>Browse products, add to cart, and make purchases from other entrepreneurs</p>
+      <a href="{% url 'buyer_dashboard' %}" class="dashboard-btn">Go to Buyer Dashboard</a>
+    </div>
+
+    <!-- Seller Dashboard -->
+    <div class="dashboard-card seller-card">
+      <div class="card-icon">🏪</div>
+      <h3>Seller Dashboard</h3>
+      <p>Manage your products, track sales, and grow your business</p>
+      <a href="{% url 'seller_dashboard' %}" class="dashboard-btn">Go to Seller Dashboard</a>
+    </div>
+
+    <!-- Mentor Dashboard -->
+    <div class="dashboard-card mentor-card">
+      <div class="card-icon">🎓</div>
+      <h3>Mentor Dashboard</h3>
+      <p>Connect with mentees, manage sessions, and share your expertise</p>
+      <a href="{% url 'mentor_dashboard' %}" class="dashboard-btn">Go to Mentor Dashboard</a>
+    </div>
+
+    <!-- Mentee Dashboard -->
+    <div class="dashboard-card mentee-card">
+      <div class="card-icon">📚</div>
+      <h3>Mentee Dashboard</h3>
+      <p>Find mentors, book sessions, and accelerate your learning</p>
+      <a href="{% url 'mentee_dashboard' %}" class="dashboard-btn">Go to Mentee Dashboard</a>
+    </div>
+
+    <!-- Savings Dashboard -->
+    <div class="dashboard-card savings-card">
+      <div class="card-icon">💰</div>
+      <h3>Savings Groups</h3>
+      <p>Join savings groups, contribute monthly, and build financial security</p>
+      <a href="{% url 'savings_home' %}" class="dashboard-btn">Go to Savings</a>
+    </div>
+
+    <!-- Community Dashboard -->
+    <div class="dashboard-card community-card">
+      <div class="card-icon">🤝</div>
+      <h3>Community</h3>
+      <p>Network with other entrepreneurs, share experiences, and get support</p>
+      <a href="{% url 'community' %}" class="dashboard-btn">Go to Community</a>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <h3>Quick Actions</h3>
+    <div class="action-buttons">
+      <a href="{% url 'product_list' %}" class="action-btn">Browse Products</a>
+      <a href="{% url 'create_product' %}" class="action-btn">List a Product</a>
+      <a href="{% url 'cart_detail' %}" class="action-btn">View Cart</a>
+      
+    </div>
+  </div>
+</div>
+
+<style>
+  .dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .welcome-header {
+    text-align: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px 20px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+  }
+
+  .welcome-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+
+  .welcome-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+  }
+
+  .dashboard-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 2px solid transparent;
+  }
+
+  .dashboard-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  }
+
+  .buyer-card:hover { border-color: #667eea; }
+  .seller-card:hover { border-color: #f093fb; }
+  .mentor-card:hover { border-color: #4facfe; }
+  .mentee-card:hover { border-color: #43e97b; }
+  .savings-card:hover { border-color: #fa709a; }
+  .community-card:hover { border-color: #a8edea; }
+
+  .card-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+
+  .dashboard-card h3 {
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin-bottom: 15px;
+  }
+
+  .dashboard-card p {
+    color: #718096;
+    line-height: 1.6;
+    margin-bottom: 25px;
+  }
+
+  .dashboard-btn {
+    display: inline-block;
+    background: #6b21a8;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+  }
+
+  .dashboard-btn:hover {
+    background: #8b5cf6;
+    color: white;
+  }
+
+  .quick-actions {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .quick-actions h3 {
+    text-align: center;
+    color: #2d3748;
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+  }
+
+  .action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+
+  .action-btn {
+    background: #f7fafc;
+    color: #4a5568;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    border: 2px solid #e2e8f0;
+    transition: all 0.3s;
+  }
+
+  .action-btn:hover {
+    background: #6b21a8;
+    color: white;
+    border-color: #6b21a8;
+  }
+
+
+
+  @media (max-width: 768px) {
+    .dashboard-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .welcome-header h1 {
+      font-size: 2rem;
+    }
+    
+    .action-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>
+{% endblock %}

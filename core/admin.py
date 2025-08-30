@@ -21,9 +21,9 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ("buyer", "product", "quantity", "status", "created_at")
-    list_filter = ("status", "created_at")
-    search_fields = ("buyer__username", "product__name")
+    list_display = ("buyer", "total_amount", "is_paid", "status", "created_at")
+    list_filter = ("status", "is_paid", "created_at")
+    search_fields = ("buyer__username",)
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):

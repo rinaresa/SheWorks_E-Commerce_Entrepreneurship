@@ -105,11 +105,11 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custom user model
-#AUTH_USER_MODEL = 'core.User'
+AUTH_USER_MODEL = 'core.User'
 
 # Auth redirects
 LOGIN_URL = 'login'  
-LOGIN_REDIRECT_URL = 'home'  
+LOGIN_REDIRECT_URL = 'dashboard_home'  
 LOGOUT_REDIRECT_URL = 'login' 
 # Email backend (for password reset)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

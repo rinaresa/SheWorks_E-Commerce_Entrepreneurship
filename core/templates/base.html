@@ -99,6 +99,17 @@
       color: #6b21a8;
     }
 
+    .user-role {
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-right: 15px;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
     /* Main Content */
     .container {
       max-width: 1200px;
@@ -229,17 +240,40 @@
   <!-- Navbar -->
   <nav>
     <h1>SheWorks</h1>
-    <ul>
-      <li><a href="{% url 'home' %}" class="nav-link {% if request.path == '/' %}active{% endif %}">Home</a></li>
-      <li><a href="{% url 'buyer_dashboard' %}" class="nav-link">Buyer</a></li>
-      <li><a href="{% url 'seller_dashboard' %}" class="nav-link">Seller</a></li>
-      <li><a href="{% url 'mentor_dashboard' %}" class="nav-link">Mentor</a></li>
-      <li><a href="{% url 'mentee_dashboard' %}" class="nav-link">Mentee</a></li>
-      <li><a href="{% url 'savings_home' %}" class="nav-link">Savings</a></li>
-    </ul>
+    
+    {% if user.is_authenticated %}
+      <!-- Navigation for authenticated users -->
+      <ul>
+        <li><a href="{% url 'dashboard_home' %}" class="nav-link {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
+        {% if user.role == 'buyer' or user.is_superuser %}
+        <li><a href="{% url 'buyer_dashboard' %}" class="nav-link">Buyer</a></li>
+        {% endif %}
+        {% if user.role == 'seller' or user.is_superuser %}
+        <li><a href="{% url 'seller_dashboard' %}" class="nav-link">Seller</a></li>
+        {% endif %}
+        {% if user.role == 'mentor' or user.is_superuser %}
+        <li><a href="{% url 'mentor_dashboard' %}" class="nav-link">Mentor</a></li>
+        {% endif %}
+        {% if user.role == 'mentee' or user.is_superuser %}
+        <li><a href="{% url 'mentee_dashboard' %}" class="nav-link">Mentee</a></li>
+        {% endif %}
+        {% if user.role == 'saver' or user.is_superuser %}
+        <li><a href="{% url 'savings_home' %}" class="nav-link">Savings</a></li>
+        {% endif %}
+        <li><a href="{% url 'community' %}" class="nav-link">Community</a></li>
+      </ul>
+    {% else %}
+      <!-- Navigation for unauthenticated users -->
+      <ul>
+        <li><a href="{% url 'home' %}" class="nav-link {% if request.path == '/' %}active{% endif %}">Home</a></li>
+        <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+        <li><a href="{% url 'community' %}" class="nav-link">Community</a></li>
+      </ul>
+    {% endif %}
 
     <div class="auth-buttons">
       {% if user.is_authenticated %}
+        <span class="user-role">Welcome, {{ user.username }} ({{ user.get_role_display }})</span>
         <a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
       {% else %}
         <a href="{% url 'login' %}" class="btn btn-secondary">Login</a>

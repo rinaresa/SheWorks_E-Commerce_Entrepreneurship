@@ -2,7 +2,16 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 class User(AbstractUser):
+    ROLE_CHOICES = [
+        ('buyer', 'Buyer'),
+        ('seller', 'Seller'),
+        ('mentor', 'Mentor'),
+        ('mentee', 'Mentee'),
+        ('saver', 'Savings Group Member'),
+    ]
+    
     email = models.EmailField(unique=True)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='buyer')
     is_seller = models.BooleanField(default=False)
     is_mentor = models.BooleanField(default=False)
 
@@ -31,23 +40,37 @@ class Product(models.Model):
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     description = models.TextField(blank=True)  
-    image = models.ImageField(upload_to='products/', blank=True, null=True)  
+    image = models.ImageField(upload_to='products/', blank=True, null=True) 
+    is_featured = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return self.name 
 
 class Order(models.Model):
     buyer = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
-    status = models.CharField(max_length=20)
+    items = models.ManyToManyField('CartItem', blank=True)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    is_paid = models.BooleanField(default=False)
+    status = models.CharField(max_length=20, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Order #{self.id} by {self.buyer.username}"
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.user.username}'s Cart"
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
+    
+    def __str__(self):
+        return f"{self.quantity}x {self.product.name}"
 
 class SavingsGroup(models.Model):
     name = models.CharField(max_length=100)

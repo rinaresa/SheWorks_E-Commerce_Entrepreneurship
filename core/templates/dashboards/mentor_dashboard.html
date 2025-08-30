@@ -1,10 +1,307 @@
-<h1>Mentor Dashboard</h1>
-<p>Welcome, {{ request.user.username }}</p>
-<h2>Mentorship Requests</h2>
-<ul>
-    {% for req in requests %}
-        <li>{{ req.mentee.username }} - {{ req.status }}</li>
-    {% empty %}
-        <li>No requests yet.</li>
-    {% endfor %}
-</ul>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Mentor Dashboard{% endblock %}
+
+{% block content %}
+<div class="container">
+  <header class="dashboard-header">
+    <h1>Welcome, {{ request.user.username }}! 🎓</h1>
+    <div class="stats-info">
+      <span class="stat-item">
+        👥 <strong>5</strong> Active Students
+      </span>
+      <span class="stat-item">
+        📅 <strong>3</strong> Upcoming Sessions
+      </span>
+    </div>
+  </header>
+
+  <div class="dashboard-section">
+    <h2>📊 Dashboard Overview</h2>
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-number">5</div>
+        <div class="stat-label">Active Students</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📅</div>
+        <div class="stat-number">3</div>
+        <div class="stat-label">Upcoming Sessions</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⭐</div>
+        <div class="stat-number">4.8</div>
+        <div class="stat-label">Rating</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div class="stat-number">$120</div>
+        <div class="stat-label">This Month</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-section">
+    <h2>📝 Recent Activities</h2>
+    <div class="activities-list">
+      <div class="activity-item">
+        <div class="activity-icon">✅</div>
+        <div class="activity-content">
+          <h4>Session with Student A - Completed</h4>
+          <p>Business plan review and feedback session</p>
+          <span class="activity-time">2 hours ago</span>
+        </div>
+      </div>
+      <div class="activity-item">
+        <div class="activity-icon">⏳</div>
+        <div class="activity-content">
+          <h4>Project review for Student B - Pending</h4>
+          <p>Marketing strategy presentation review</p>
+          <span class="activity-time">1 day ago</span>
+        </div>
+      </div>
+      <div class="activity-item">
+        <div class="activity-icon">🆕</div>
+        <div class="activity-content">
+          <h4>New student assigned - Student C</h4>
+          <p>E-commerce startup consultation</p>
+          <span class="activity-time">3 days ago</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-section">
+    <h2>🚀 Quick Actions</h2>
+    <div class="quick-actions">
+      <a href="#" class="action-btn">
+        <span class="action-icon">👥</span>
+        <span>View Students</span>
+      </a>
+      <a href="#" class="action-btn">
+        <span class="action-icon">📅</span>
+        <span>Schedule Session</span>
+      </a>
+      <a href="#" class="action-btn">
+        <span class="action-icon">📝</span>
+        <span>Update Profile</span>
+      </a>
+      <a href="#" class="action-btn">
+        <span class="action-icon">💰</span>
+        <span>View Earnings</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  }
+
+  .dashboard-header h1 {
+    margin: 0;
+    font-size: 2.2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  .stats-info {
+    display: flex;
+    gap: 20px;
+  }
+
+  .stat-item {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 1rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .dashboard-section {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+  }
+
+  .dashboard-section h2 {
+    color: #667eea;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .stat-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-color: #667eea;
+  }
+
+  .stat-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+  }
+
+  .stat-number {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #667eea;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-bottom: 5px;
+  }
+
+  .stat-label {
+    color: #6c757d;
+    font-size: 0.9rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+  }
+
+  .activities-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #667eea;
+    transition: all 0.3s ease;
+  }
+
+  .activity-item:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+  }
+
+  .activity-icon {
+    font-size: 1.5rem;
+    margin-top: 5px;
+  }
+
+  .activity-content h4 {
+    margin: 0 0 8px 0;
+    color: #2d3748;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
+  .activity-content p {
+    margin: 0 0 8px 0;
+    color: #6c757d;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .activity-time {
+    color: #adb5bd;
+    font-size: 0.85rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #2d3748;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+
+  .action-btn:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: #667eea;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+  }
+
+  .action-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+
+  .action-btn span:last-child {
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-header {
+      flex-direction: column;
+      gap: 20px;
+      text-align: center;
+    }
+    
+    .stats-info {
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .quick-actions {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+{% endblock %}

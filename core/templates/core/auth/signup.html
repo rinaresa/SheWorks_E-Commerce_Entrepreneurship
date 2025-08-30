@@ -7,74 +7,130 @@
   <title>Sign Up | SheWorks</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       margin: 0;
       padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .container {
-      max-width: 400px;
-      margin: 60px auto;
+      max-width: 450px;
+      width: 90%;
       background: white;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
     }
 
     h1 {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
       color: #6b21a8;
+      font-size: 2.2rem;
+      font-weight: 700;
     }
 
     form p {
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
 
     label {
       display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #374151;
+      font-size: 0.95rem;
     }
 
     input, select {
       width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      font-size: 14px;
+      padding: 14px 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #6b21a8;
+      box-shadow: 0 0 0 3px rgba(107, 33, 168, 0.1);
+      transform: translateY(-2px);
+    }
+
+    select {
+      background: white;
+      cursor: pointer;
     }
 
     button {
       width: 100%;
-      background: #6b21a8;
+      background: linear-gradient(135deg, #6b21a8 0%, #8b5cf6 100%);
       color: white;
       border: none;
-      padding: 12px;
-      border-radius: 6px;
-      font-size: 16px;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: 600;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
+      margin-top: 10px;
     }
 
     button:hover {
-      background: #8b5cf6;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(107, 33, 168, 0.3);
+    }
+
+    button:active {
+      transform: translateY(-1px);
     }
 
     .login-link {
       text-align: center;
-      margin-top: 15px;
-      font-size: 14px;
+      margin-top: 25px;
+      font-size: 15px;
+      color: #6b7280;
     }
 
     .login-link a {
       color: #6b21a8;
       text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
     }
 
     .login-link a:hover {
+      color: #8b5cf6;
       text-decoration: underline;
+    }
+
+    .role-description {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-top: 5px;
+      font-style: italic;
+    }
+
+    .form-group {
+      position: relative;
+    }
+
+    .form-group.error input,
+    .form-group.error select {
+      border-color: #ef4444;
+    }
+
+    .error-message {
+      color: #ef4444;
+      font-size: 0.85rem;
+      margin-top: 5px;
     }
   </style>
 </head>
@@ -110,14 +166,15 @@
       <!-- Role selection -->
       <p>
         <label for="role">Register as:</label>
-        <select name="role" id="role" required>
+        <select name="role" id="role" required onchange="showRoleDescription()">
           <option value="">-- Select a Role --</option>
           <option value="buyer">Buyer</option>
           <option value="seller">Seller</option>
           <option value="mentor">Mentor</option>
           <option value="mentee">Mentee</option>
-          <option value="saver">Saver</option>
+          <option value="saver">Savings Group Member</option>
         </select>
+        <div id="role-description" class="role-description"></div>
       </p>
 
       <button type="submit">Sign Up</button>
@@ -127,5 +184,43 @@
       <p>Already have an account? <a href="{% url 'login' %}">Log In</a></p>
     </div>
   </div>
+
+  <script>
+    function showRoleDescription() {
+      const roleSelect = document.getElementById('role');
+      const descriptionDiv = document.getElementById('role-description');
+      const selectedRole = roleSelect.value;
+      
+      const descriptions = {
+        'buyer': 'Browse and purchase products from our marketplace. Access exclusive deals and manage your orders.',
+        'seller': 'List your products, manage inventory, and grow your business. Track sales and customer orders.',
+        'mentor': 'Share your expertise and guide aspiring entrepreneurs. Build your mentoring business.',
+        'mentee': 'Connect with experienced mentors, learn new skills, and accelerate your business growth.',
+        'saver': 'Join savings groups, contribute monthly, and access financial support when you need it.'
+      };
+      
+      if (selectedRole && descriptions[selectedRole]) {
+        descriptionDiv.textContent = descriptions[selectedRole];
+        descriptionDiv.style.display = 'block';
+      } else {
+        descriptionDiv.style.display = 'none';
+      }
+    }
+
+    // Add some interactive effects
+    document.addEventListener('DOMContentLoaded', function() {
+      const inputs = document.querySelectorAll('input, select');
+      
+      inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+          this.parentElement.classList.add('focused');
+        });
+        
+        input.addEventListener('blur', function() {
+          this.parentElement.classList.remove('focused');
+        });
+      });
+    });
+  </script>
 </body>
 </html>

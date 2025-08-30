@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace Dashboard - SheWorks</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #6f42c1;
+            --success-color: #1cc88a;
+            --warning-color: #f6c23e;
+            --danger-color: #e74a3b;
+            --light-bg: #f8f9fc;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+            height: 100%;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .stat-label {
+            color: #6e707e;
+            font-size: 0.9rem;
+        }
+        
+        .section-title {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 10px;
+            margin: 25px 0 20px;
+        }
+        
+        .product-card {
+            border: none;
+            transition: all 0.3s;
+        }
+        
+        .product-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-img {
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .price-tag {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .btn-market {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-weight: 600;
+        }
+        
+        .btn-market:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .filter-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            font-weight: 600;
+            border-bottom: 3px solid var(--primary-color);
+        }
+        
+        .balance-card {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .stat-number {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-store me-2"></i>SheWorks Marketplace
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">My Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Messages</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <div class="dropdown me-3">
+                        <a href="#" class="text-white position-relative" data-bs-toggle="dropdown">
+                            <i class="fas fa-bell fa-lg"></i>
+                            <span class="notification-badge">3</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" href="#">New order received</a>
+                            <a class="dropdown-item" href="#">Product sold</a>
+                            <a class="dropdown-item" href="#">New message</a>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <a href="#" class="text-white dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle fa-lg"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" href="#">Profile</a>
+                            <a class="dropdown-item" href="#">Settings</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container dashboard-container py-4">
+        <!-- Dashboard Header -->
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h2 class="fw-bold">Marketplace Dashboard</h2>
+                <p class="text-muted">Manage your buying and selling activities in one place</p>
+            </div>
+            <div class="col-md-4 text-end">
+                <button class="btn btn-market">
+                    <i class="fas fa-plus me-2"></i>Add New Product
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="row mb-4">
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="dashboard-card stat-card">
+                    <div class="stat-number">$2,540</div>
+                    <div class="stat-label">Total Revenue</div>
+                    <div class="text-success small mt-1">
+                        <i class="fas fa-arrow-up"></i> 12% increase
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="dashboard-card stat-card">
+                    <div class="stat-number">24</div>
+                    <div class="stat-label">Active Listings</div>
+                    <div class="text-success small mt-1">
+                        <i class="fas fa-eye"></i> 1.2K views
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="dashboard-card stat-card">
+                    <div class="stat-number">18</div>
+                    <div class="stat-label">Orders This Month</div>
+                    <div class="text-success small mt-1">
+                        <i class="fas fa-check-circle"></i> 15 completed
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="dashboard-card stat-card">
+                    <div class="stat-number">96%</div>
+                    <div class="stat-label">Seller Rating</div>
+                    <div class="text-warning small mt-1">
+                        <i class="fas fa-star"></i> 4.8/5.0
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Marketplace Content -->
+        <div class="row">
+            <!-- Filters Sidebar -->
+            <div class="col-lg-3 mb-4">
+                <div class="filter-section">
+                    <h5>Filters</h5>
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select class="form-select">
+                            <option selected>All Categories</option>
+                            <option>Handmade Crafts</option>
+                            <option>Digital Products</option>
+                            <option>Fashion & Accessories</option>
+                            <option>Home & Living</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Price Range</label>
+                        <input type="range" class="form-range" min="0" max="1000">
+                        <div class="d-flex justify-content-between">
+                            <span>$0</span>
+                            <span>$1000</span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Sort By</label>
+                        <select class="form-select">
+                            <option selected>Newest First</option>
+                            <option>Price: Low to High</option>
+                            <option>Price: High to Low</option>
+                            <option>Most Popular</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-market w-100">Apply Filters</button>
+                </div>
+
+                <!-- Balance Card -->
+                <div class="balance-card p-3 mt-4">
+                    <h5>Your Balance</h5>
+                    <h2 class="fw-bold">$1,250.75</h2>
+                    <div class="d-flex justify-content-between mt-3">
+                        <button class="btn btn-light btn-sm">Withdraw</button>
+                        <button class="btn btn-light btn-sm">Add Funds</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Listing -->
+            <div class="col-lg-9">
+                <ul class="nav nav-tabs" id="marketTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="buy-tab" data-bs-toggle="tab" data-bs-target="#buy" type="button" role="tab">Buy Products</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="sell-tab" data-bs-toggle="tab" data-bs-target="#sell" type="button" role="tab">Sell Products</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab">My Orders</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content mt-3" id="marketTabsContent">
+                    <!-- Buy Products Tab -->
+                    <div class="tab-pane fade show active" id="buy" role="tabpanel">
+                        <h4 class="section-title">Featured Products</h4>
+                        <div class="row">
+                            <!-- Product 1 -->
+                            <div class="col-md-4 col-sm-6 mb-4">
+                                <div class="card product-card h-100">
+                                    <span class="badge bg-success position-absolute m-2">Popular</span>
+                                    <img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top product-img" alt="Product">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Handmade Leather Bag</h6>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="price-tag">$89.99</span>
+                                            <div class="text-warning">
+                                                <i class="fas fa-star"></i> 4.8
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-white">
+                                        <button class="btn btn-market w-100">
+                                            <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Product 2 -->
+                            <div class="col-md-4 col-sm-6 mb-4">
+                                <div class="card product-card h-100">
+                                    <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top product-img" alt="Product">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Digital Marketing eBook</h6>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="price-tag">$24.99</span>
+                                            <div class="text-warning">
+                                                <i class="fas fa-star"></i> 4.5
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-white">
+                                        <button class="btn btn-market w-100">
+                                            <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Product 3 -->
+                            <div class="col-md-4 col-sm-6 mb-4">
+                                <div class="card product-card h-100">
+                                    <span class="badge bg-danger position-absolute m-2">Sale</span>
+                                    <img src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top product-img" alt="Product">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Handcrafted Silver Necklace</h6>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="price-tag">$45.99</span>
+                                            <div class="text-warning">
+                                                <i class="fas fa-star"></i> 4.9
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-white">
+                                        <button class="btn btn-market w-100">
+                                            <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sell Products Tab -->
+                    <div class="tab-pane fade" id="sell" role="tabpanel">
+                        <h4 class="section-title">Your Listings</h4>
+                        <div class="dashboard-card p-4 mb-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5>Manage Your Products</h5>
+                                <button class="btn btn-market">
+                                    <i class="fas fa-plus me-2"></i>Add New Product
+                                </button>
+                            </div>
+                            <p class="text-muted">View and manage your product listings, track performance, and update inventory.</p>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Stock</th>
+                                        <th>Sales</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Handmade Leather Bag</td>
+                                        <td>$89.99</td>
+                                        <td>12</td>
+                                        <td>24</td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Digital Marketing eBook</td>
+                                        <td>$24.99</td>
+                                        <td>∞</td>
+                                        <td>37</td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Handcrafted Silver Necklace</td>
+                                        <td>$45.99</td>
+                                        <td>3</td>
+                                        <td>19</td>
+                                        <td><span class="badge bg-warning">Low Stock</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Orders Tab -->
+                    <div class="tab-pane fade" id="orders" role="tabpanel">
+                        <h4 class="section-title">Recent Orders</h4>
+                        <div class="dashboard-card p-4 mb-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5>Order History</h5>
+                                <div class="btn-group">
+                                    <button class="btn btn-outline-primary active">All Orders</button>
+                                    <button class="btn btn-outline-primary">Completed</button>
+                                    <button class="btn btn-outline-primary">Pending</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion" id="ordersAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#order1">
+                                        Order #3245 - Completed
+                                    </button>
+                                </h2>
+                                <div id="order1" class="accordion-collapse collapse show" data-bs-parent="#ordersAccordion">
+                                    <div class="accordion-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <strong>Date:</strong> Aug 28, 2025<br>
+                                                <strong>Total:</strong> $89.99
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-outline-primary btn-sm">View Details</button>
+                                                <button class="btn btn-outline-success btn-sm">Buy Again</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#order2">
+                                        Order #3244 - Processing
+                                    </button>
+                                </h2>
+                                <div id="order2" class="accordion-collapse collapse" data-bs-parent="#ordersAccordion">
+                                    <div class="accordion-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <strong>Date:</strong> Aug 27, 2025<br>
+                                                <strong>Total:</strong> $45.99
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-outline-primary btn-sm">View Details</button>
+                                                <button class="btn btn-outline-warning btn-sm">Track Order</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>SheWorks Marketplace</h5>
+                    <p>Empowering women entrepreneurs through e-commerce</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p>&copy; 2025 SheWorks. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap & jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Simple JavaScript for interactive elements
+        $(document).ready(function() {
+            // Update balance card with random movement
+            setInterval(function() {
+                const change = (Math.random() > 0.5 ? '+' : '-') + Math.floor(Math.random() * 10);
+                $('#balanceChange').text(change);
+            }, 5000);
+            
+            // Product card hover effect
+            $('.product-card').hover(
+                function() {
+                    $(this).css('transform', 'translateY(-5px)');
+                },
+                function() {
+                    $(this).css('transform', 'translateY(0)');
+                }
+            );
+        });
+    </script>
+</body>
+</html>

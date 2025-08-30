@@ -1,60 +1,234 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 
-{% block title %}Home - SheWorks{% endblock %}
+{% block title %}SheWorks - Empowering Women Entrepreneurs{% endblock %}
 
 {% block content %}
 <div class="hero-section">
-    <div class="container">
-        <div class="hero-content">
-            <h1>Welcome to <span class="highlight">SheWorks</span></h1>
-            <p class="hero-description">Empowering women entrepreneurs through e-commerce, mentorship, and financial support</p>
-            
-            <div class="hero-buttons">
-                <a href="#features" class="btn btn-primary btn-large">Get Started</a>
-                <a href="{% url 'signup' %}" class="btn btn-secondary btn-large">Sign Up</a>
-            </div>
-        </div>
+  <div class="hero-content">
+    <h1 class="hero-title">Welcome to SheWorks</h1>
+    <p class="hero-subtitle">Empowering women entrepreneurs through e-commerce, mentorship, savings groups, and community support.</p>
+    
+    <div class="hero-buttons">
+      <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+      <a href="{% url 'signup' %}" class="btn btn-secondary">Sign Up</a>
     </div>
+  </div>
+  
+  <div class="hero-image">
+    <img src="{% static 'images/background.jpg.jpg' %}" alt="Women Entrepreneurs" class="hero-img">
+  </div>
 </div>
 
-<div id="features" class="features-section">
-    <div class="container">
-        <h2>Why Choose SheWorks?</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <i class="fas fa-shopping-cart"></i>
-                <h3>Buy & Sell</h3>
-                <p>Shop from women-owned businesses or start your own e-commerce store</p>
-                <a href="{% url 'buyer_dashboard' %}" class="btn btn-primary">Shop Now</a>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-hands-helping"></i>
-                <h3>Mentorship</h3>
-                <p>Connect with experienced mentors or guide the next generation</p>
-                <a href="{% url 'mentor_dashboard' %}" class="btn btn-primary">Find Mentors</a>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-piggy-bank"></i>
-                <h3>Savings Groups</h3>
-                <p>Join savings circles and access micro-loans for your business</p>
-                <a href="{% url 'savings_home' %}" class="btn btn-primary">Join Savings</a>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-network-wired"></i>
-                <h3>Community</h3>
-                <p>Build your professional network with like-minded women entrepreneurs</p>
-                <a href="{% url 'mentee_dashboard' %}" class="btn btn-primary">Join Community</a>
-            </div>
-        </div>
+<div class="features-section">
+  <h2>What We Offer</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🛍️</div>
+      <h3>E-Commerce Platform</h3>
+      <p>Buy and sell products in our supportive marketplace</p>
     </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">🎓</div>
+      <h3>Mentorship</h3>
+      <p>Connect with experienced mentors or become one</p>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">💰</div>
+      <h3>Savings Groups</h3>
+      <p>Join savings groups and build financial security</p>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">🤝</div>
+      <h3>Community</h3>
+      <p>Network with fellow entrepreneurs</p>
+    </div>
+  </div>
 </div>
 
 <div class="cta-section">
-    <div class="container">
-        <h2>Ready to Start Your Journey?</h2>
-        <p>Join thousands of women entrepreneurs growing their businesses today</p>
-        <a href="{% url 'signup' %}" class="btn btn-primary btn-large">Create Your Account</a>
-    </div>
+  <h2>Ready to Start Your Journey?</h2>
+  <p>Join thousands of women entrepreneurs who are building their dreams with SheWorks</p>
+  <a href="{% url 'signup' %}" class="btn btn-primary btn-large">Get Started Today</a>
 </div>
+
+<style>
+  .hero-section {
+    display: flex;
+    align-items: center;
+    min-height: 80vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px 20px;
+  }
+
+  .hero-content {
+    flex: 1;
+    max-width: 600px;
+    padding-right: 40px;
+  }
+
+  .hero-title {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  .hero-subtitle {
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+    line-height: 1.6;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 20px;
+  }
+
+  .btn {
+    padding: 15px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+
+  .btn-primary {
+    background: #6b21a8;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #8b5cf6;
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+  }
+
+  .btn-secondary:hover {
+    background: white;
+    color: #6b21a8;
+  }
+
+  .hero-image {
+    flex: 1;
+    text-align: center;
+  }
+
+  .hero-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .features-section {
+    padding: 80px 20px;
+    background: white;
+    text-align: center;
+  }
+
+  .features-section h2 {
+    font-size: 2.5rem;
+    color: #2d3748;
+    margin-bottom: 50px;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .feature-card {
+    background: #f7fafc;
+    padding: 40px 20px;
+    border-radius: 15px;
+    border: 2px solid transparent;
+    transition: all 0.3s;
+  }
+
+  .feature-card:hover {
+    border-color: #6b21a8;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .feature-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+
+  .feature-card h3 {
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin-bottom: 15px;
+  }
+
+  .feature-card p {
+    color: #718096;
+    line-height: 1.6;
+  }
+
+  .cta-section {
+    background: linear-gradient(135deg, #6b21a8 0%, #8b5cf6 100%);
+    color: white;
+    text-align: center;
+    padding: 80px 20px;
+  }
+
+  .cta-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+
+  .cta-section p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+  }
+
+  .btn-large {
+    padding: 20px 40px;
+    font-size: 1.2rem;
+  }
+
+  @media (max-width: 768px) {
+    .hero-section {
+      flex-direction: column;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .hero-content {
+      padding-right: 0;
+      margin-bottom: 40px;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+    }
+
+    .hero-buttons {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
 {% endblock %}

@@ -21,19 +21,23 @@ urlpatterns = [
 
     # Auth
     path("login/", auth_views.LoginView.as_view(template_name="core/auth/login.html"), name="login"),
-    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path("logout/", views.custom_logout, name="logout"),
     path("signup/", views.signup_view, name="signup"),
-    path("post-login-redirect/", views.post_login_redirect, name="post_login_redirect"),
 
-     # Dashboard Tabs
+     # Dashboard Homepage
+    path("dashboard/", views.dashboard_home, name="dashboard_home"),
+    
+    # Dashboard Tabs
     path("dashboard/buyer/", views.buyer_dashboard, name="buyer_dashboard"),
     path("dashboard/seller/", views.seller_dashboard, name="seller_dashboard"),
     path("dashboard/mentor/", views.mentor_dashboard, name="mentor_dashboard"),
     path("dashboard/mentee/", views.mentee_dashboard, name="mentee_dashboard"),
     path("savings/", views.savings_home, name="savings_home"),
     
+
     # Products
     path("products/", views.product_list, name="product_list"),
+    path("products/<int:pk>/", views.product_detail, name="product_detail"),
     path("products/create/", views.create_product, name="create_product"),
     path("products/<int:pk>/update/", views.update_product, name="update_product"),
     path("products/<int:pk>/delete/", views.delete_product, name="delete_product"),
@@ -43,10 +47,16 @@ urlpatterns = [
     path("cart/", views.cart_detail, name="cart_detail"),
     path("cart/add/<int:pk>/", views.add_to_cart, name="add_to_cart"),
     path("cart/remove/<int:pk>/", views.remove_from_cart, name="remove_from_cart"),
+    path("cart/update/<int:pk>/", views.update_cart_item, name="update_cart_item"),
     path("cart/checkout/", views.checkout, name="checkout"),
+    
+    # Orders
+    path("orders/", views.order_history, name="order_history"),
+    path("orders/<int:order_id>/", views.order_detail, name="order_detail"),
 
     # Savings
     path("savings/", views.savings_home, name="savings_home"),
+    path("savings/create/", views.savings_group_create, name="savings_group_create"),
     path("savings/<int:group_id>/", views.savings_group_detail, name="savings_group_detail"),
 
     # Mentorship
